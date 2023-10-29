@@ -11,7 +11,7 @@ search
         </div>
         <div className='icon'>
             <button type="button" cursor="pointer">
-            <span class="material-symbols-outlined add">
+            <span className="material-symbols-outlined add">
 add
 </span>
             </button>
