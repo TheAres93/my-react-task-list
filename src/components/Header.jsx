@@ -1,5 +1,4 @@
 import './general.css';
-import { listaDeTareas } from "../../Data";
 
 function Header(){
     return (
