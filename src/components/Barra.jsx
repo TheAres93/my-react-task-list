@@ -1,16 +1,19 @@
 function Barra(){
     return (
-      <div className="Barra">
-        <input className='escrito' type="text" placeholder="Nombre de la tarea" />
-
+      <div className="barra">
+        <input className='textarea' type="text" placeholder="Nombre de la tarea" />
         <div className='icon'>
             <button type="button" cursor="pointer">
-            <img src="./public/search.svg"/>
+            <span className="material-symbols-outlined search" >
+search
+</span>
             </button>
         </div>
         <div className='icon'>
             <button type="button" cursor="pointer">
-            <img src="./public/add.svg"/>
+            <span class="material-symbols-outlined add">
+add
+</span>
             </button>
         </div>
     </div>

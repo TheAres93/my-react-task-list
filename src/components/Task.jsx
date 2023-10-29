@@ -2,26 +2,44 @@ import './general.css';
 
 function Task(props) {
   const { tarea } = props;
-  return (
-    <div className="Tarea">
-      {tarea.estado === "completado" ? (
-        <img className='completado' src="./public/check.svg" />
-      ) : (
-        <img className='pendiente' src="./public/uncheck.svg" />
-      )}
-      <div className='Descripcion'>{tarea.descripcion}</div>
-      <div className='icon'>
-        <button type="button" cursor="pointer">
-          <img src="./public/edit.svg"/>
-        </button>
+
+  if (tarea.estado === "completado") {
+    return (
+      <div className="tarea">
+        <div className="icon">
+          <span className="material-symbols-outlined check">done</span>
+        </div>
+        <div className="descripcion">{tarea.descripcion}</div>
+        <div></div>
+        <div className="icon">
+          <button type="button" cursor="pointer">
+            <span className="material-symbols-outlined borrar">delete</span>
+          </button>
+        </div>
       </div>
-      <div className='icon'>
-        <button type="button" cursor="pointer">
-          <img src="./public/delete.svg"/>
-        </button>
+    );
+  } else {
+    return (
+      <div className="tarea">
+        <div className="icon">
+          <span className="material-symbols-outlined uncheck">close</span>
+        </div>
+        <div className="descripcion">{tarea.descripcion}</div>
+        <div className="icon">
+          <button type="button" cursor="pointer">
+            <span className="material-symbols-outlined completar">
+              check_circle
+            </span>
+          </button>
+        </div>
+        <div className="icon">
+          <button type="button" cursor="pointer">
+            <span className="material-symbols-outlined borrar">delete</span>
+          </button>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export { Task };

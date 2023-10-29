@@ -1,4 +1,4 @@
-.Tarea {
+.tarea {
     display: grid;
     grid-template-columns: 0.5fr 3fr 0.5fr 0.5fr;
     grid-template-rows: 1fr;
@@ -10,11 +10,11 @@
     border-radius: 15px;
   }
   
-  .Descripcion {
-    font-size: 18px;
-  }
+.descripcion {
+  font-size: 18px;
+}
 
-.Barra {
+.barra {
   display: grid;
   grid-template-columns: 3fr 0.5fr 0.5fr;
   grid-template-rows: 1fr;
@@ -22,12 +22,57 @@
   justify-content: center;
 }
 
-.titulo{
-  font-size: 25px;
+.textarea{
+  height: 70%;
+  border-radius: 15px;
 }
 
-footer {
+.header{
+  padding: 20px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.footer {
+  display: grid;
   position: fixed;
   bottom: 0;
   width: 100%;
+  font-size: 15px;
+}
+
+.todas{
+  font-weight: bold;
+}
+
+.pendientes{
+  color: green,
+}
+
+.completadas{
+  color: red,
+}
+
+.search{
+  color: lightgray;
+}
+
+.add{
+  color: blue;
+}
+
+.borrar{
+  color: brown;
+}
+
+.completar{
+  color: green ;
+}
+
+.uncheck{
+  color: red;
+}
+
+.check{
+  color: green;
 }

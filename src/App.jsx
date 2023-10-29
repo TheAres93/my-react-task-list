@@ -2,7 +2,7 @@ import './App.css'
 import { Barra } from './components/Barra'
 import { Header } from './components/Header'
 import { TaskList } from './components/TaskList'
-import { Futer } from './components/footer'
+import { Footer } from './components/footer'
 
 function App() {
   return(
@@ -10,7 +10,7 @@ function App() {
       <Header/>
       <Barra/>
       <TaskList />
-      <Futer/>
+      <Footer/>
     </div>
   )
 }

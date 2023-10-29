@@ -1,6 +1,6 @@
 import { listaDeTareas } from "../../Data";
 
-function Futer(){
+function Footer(){
   let tareasCompletadas = 0;
   let tareasPendientes = 0;
 
@@ -13,16 +13,18 @@ function Futer(){
   }
 
   return (
-    <footer>
-        <div className='Descripcion'>Tareas registradas: {listaDeTareas.length}</div>
-      <div className='Descripcion'>
-        Tareas completadas: {tareasCompletadas}
+        <div className='footer'>
+          <div className="todas">
+            Tareas registradas: {listaDeTareas.length}
+          </div>  
+          <div className="completadas">
+            Tareas completadas: {tareasCompletadas}
+          </div>
+          <div className="pendientes">
+            Tareas pendientes: {tareasPendientes}
+          </div>
       </div>
-      <div className='Descripcion'>
-        Tareas pendientes: {tareasPendientes}
-      </div>
-    </footer>
   );
 }
 
-export {Futer}
+export {Footer}
