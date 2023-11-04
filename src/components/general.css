@@ -21,8 +21,8 @@
 
 .barra {
   display: grid;
-  grid-template-columns: 3fr 0.5fr 0.5fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 3fr 0.5fr;
+  grid-template-rows: 1fr 1fr;
   align-items: center;
   justify-content: center;
 }
@@ -64,4 +64,8 @@
 
 .check{
   color: green;
+}
+
+.title{
+  font-weight: 700;
 }

@@ -35,12 +35,13 @@ function AllApp(props) {
     return newSetTasks;
   }
 
-  function EditTask(id, nuevaTarea) {
+  function EditTask(id, title, description) {
     const newSetTasks = tasks.map((task) => {
       if (task.id === id) {
         return {
           ...task,
-          title: nuevaTarea.title,
+          title: title.title,
+          description: description.description,
           edit: false,
           state: false,
         };

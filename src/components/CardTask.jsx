@@ -3,23 +3,54 @@ import React, { useState } from "react";
 
 function CardTask(props) {
   const { task, DeleteTask, CompleteTask, EditTask, InputOn, } = props;
-  const [editTask, setEditTask] = useState(task.title);
+  const [editTitleTask, setEditTitleTask] = useState(task.title);
+  const [editDescriptionTask, setEditDescriptionTask] = useState(task.description);
+
 
  function renderTask(task) {
     if (!task.edit && !task.state) {
-      return <div className="descripcion">{task.title}</div>;
+      return (
+      <div className="descripcion">
+        <div className="title">
+          {task.title}
+        </div>
+          {task.description}
+      </div>);
     } else if (task.edit) {
       return (
-        <input
-          className="textarea"
-          type="text"
-          value={editTask}
-          onChange={(event) => setEditTask(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              EditTask(task.id, {title: editTask});
-             }}}/>);}
-    return <div className="noDescripcion">{task.title}</div>;
+        <div>
+          <input
+            className="textarea"
+            type="text"
+            value={editTitleTask}
+            onChange={(event) => setEditTitleTask(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && (editTitleTask.trim() !== "" && editDescriptionTask.trim() !== "")) {
+                EditTask(task.id, {title: editTitleTask}, {description: editDescriptionTask} );
+              }}}/>
+          <br/>
+          <input
+            className="textarea"
+            type="text"
+            value={editDescriptionTask}
+            onChange={(event) => setEditDescriptionTask(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && (editTitleTask.trim() !== "" && editDescriptionTask.trim() !== "")) {
+                EditTask(task.id, {title: editTitleTask}, {description: editDescriptionTask} );
+              }}}/>
+          
+        </div>
+      );
+    }
+        
+
+    return (
+      <div className="noDescripcion">
+        <div className="title">
+          {task.title}
+        </div>
+          {task.description}
+      </div>);
  }
 
  return (
