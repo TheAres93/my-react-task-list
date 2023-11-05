@@ -16,9 +16,10 @@
 
 **Instalación:**
 
+***Usa el código con precaución.***
+
 1. Clonar el repositorio:
 
-Usa el código con precaución. Más información
 git clone https://github.com/TheAres93/my-react-task-list
 
 
