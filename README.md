@@ -6,8 +6,6 @@
 
 * Permite agregar tareas con un título y una descripción detallados.
 * Permite editar, marcar como completadas o borrar tareas fácilmente.
-* Permite organizar las tareas en categorías y listas.
-* Permite recibir recordatorios para no olvidar los plazos.
 
 **Requisitos:**
 
