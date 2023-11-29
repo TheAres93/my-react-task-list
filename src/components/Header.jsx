@@ -1,7 +1,10 @@
+import useOrganizer from '../hooks/useOrganizer';
 import './general.css';
 
-function Header(props){
-  const tasks= props.tasks
+function Header(){
+  const {
+    tasks
+  } = useOrganizer()
   
     return (
       <div>

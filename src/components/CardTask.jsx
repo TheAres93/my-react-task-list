@@ -1,8 +1,11 @@
+import { useState } from "react";
 import "./general.css";
-import React, { useState } from "react";
-
 function CardTask(props) {
-  const { task, DeleteTask, CompleteTask, EditTask, InputOn, } = props;
+  const { task,
+  CompleteTask,
+  EditTask,
+  DeleteTask,
+  InputOn } = props;
   const [editTitleTask, setEditTitleTask] = useState(task.title);
   const [editDescriptionTask, setEditDescriptionTask] = useState(task.description);
 
@@ -25,7 +28,7 @@ function CardTask(props) {
             value={editTitleTask}
             onChange={(event) => setEditTitleTask(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === "Enter" && (editTitleTask.trim() !== "" && editDescriptionTask.trim() !== "")) {
+              if (event.key === "Enter" && (editTitleTask.trim() !== "")) {
                 EditTask(task.id, {title: editTitleTask}, {description: editDescriptionTask} );
               }}}/>
           <br/>
@@ -35,7 +38,7 @@ function CardTask(props) {
             value={editDescriptionTask}
             onChange={(event) => setEditDescriptionTask(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === "Enter" && (editTitleTask.trim() !== "" && editDescriptionTask.trim() !== "")) {
+              if (event.key === "Enter" && (editTitleTask.trim() !== "")) {
                 EditTask(task.id, {title: editTitleTask}, {description: editDescriptionTask} );
               }}}/>
           

@@ -1,35 +1,7 @@
-import { useState } from "react";
-
 function Barra(props) {
-  const { tasks, Update } = props;
-  const [titleTask, setTitleTask] = useState("");
-  const [descriptionTask, setDescriptionTask] = useState("");
 
-  function AddTask() {
-    if (titleTask.trim() === "" || descriptionTask.trim() === "") {
-      return;
-    }
-
-    const newTasks = [...tasks];
-    const newTask = {
-      id: String(Date.now()),
-      title: titleTask,
-      description: descriptionTask,
-      state: false,
-      edit: false,
-    };
-
-    newTasks.push(newTask);
-    Update(newTasks);
-    setTitleTask("");
-    setDescriptionTask("");
-  }
-
-  function ClearAllTasks() {
-    localStorage.clear("tasks");
-    Update([]);
-  }
-
+  const {AddTask, titleTask, descriptionTask, DeleteAllTasks, setTitleTask, setDescriptionTask} = props
+  
   return (
     <div className="barra">
       <input
@@ -68,7 +40,7 @@ function Barra(props) {
         }}
       />
 
-      <button className="icon" onClick={ClearAllTasks}>
+      <button className="icon" onClick={DeleteAllTasks}>
         <span className="material-symbols-outlined borrar">delete</span>
       </button>
     </div>
