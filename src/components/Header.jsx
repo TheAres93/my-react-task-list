@@ -1,10 +1,11 @@
-import useOrganizer from '../hooks/useOrganizer';
 import './general.css';
+import { useContext } from 'react';
+import Context from "../context/context";
 
 function Header(){
   const {
     tasks
-  } = useOrganizer()
+  } = useContext(Context);
   
     return (
       <div>

@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./general.css";
+import Context from "../context/context";
+import Form from "./Form";
 function CardTask(props) {
-  const { task,
-  CompleteTask,
-  EditTask,
-  DeleteTask,
-  InputOn } = props;
-  const [editTitleTask, setEditTitleTask] = useState(task.title);
-  const [editDescriptionTask, setEditDescriptionTask] = useState(task.description);
+  const {
+    CompleteTask,
+    DeleteTask,
+    InputOn,
+  } = useContext(Context);
+  const { task } = props;
 
 
  function renderTask(task) {
+
     if (!task.edit && !task.state) {
       return (
       <div className="descripcion">
@@ -21,28 +23,7 @@ function CardTask(props) {
       </div>);
     } else if (task.edit) {
       return (
-        <div>
-          <input
-            className="textarea"
-            type="text"
-            value={editTitleTask}
-            onChange={(event) => setEditTitleTask(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && (editTitleTask.trim() !== "")) {
-                EditTask(task.id, {title: editTitleTask}, {description: editDescriptionTask} );
-              }}}/>
-          <br/>
-          <input
-            className="textarea"
-            type="text"
-            value={editDescriptionTask}
-            onChange={(event) => setEditDescriptionTask(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && (editTitleTask.trim() !== "")) {
-                EditTask(task.id, {title: editTitleTask}, {description: editDescriptionTask} );
-              }}}/>
-          
-        </div>
+          <Form action="EditTask" id={task.id} titulo={task.title} descripcion={task.description} />
       );
     }
         
@@ -58,7 +39,7 @@ function CardTask(props) {
 
  return (
     <div className="tarea">
-      <button
+      {task.edit === false ?<button
           type="button"
           cursor="pointer"
           onClick= {()=>
@@ -67,7 +48,7 @@ function CardTask(props) {
         <span className={`material-symbols-outlined ${task.state ? 'check_circle check' : 'radio_button_unchecked uncheck'}`}>
           {task.state ? 'check_circle' : 'radio_button_unchecked'}
         </span>
-      </button>
+      </button> : <div></div>}
       {renderTask(task)}
       <div className="icon">
         <button
@@ -76,13 +57,15 @@ function CardTask(props) {
           onClick={()=>
             InputOn(task.id)}
         >
-          <span className="material-symbols-outlined editar">
+          {task.edit === false?<span className="material-symbols-outlined editar">
             edit
-          </span>
+          </span>:<span className="material-symbols-outlined uncheck">
+            cancel
+          </span>}
         </button>
       </div>
       <div className="icon">
-        <button
+      {task.edit === false ?<button
           type="button"
           cursor="pointer"
           onClick= {()=>
@@ -91,7 +74,7 @@ function CardTask(props) {
           <span className="material-symbols-outlined borrar">
             backspace
           </span>
-        </button>
+        </button>: <div></div>}
       </div>
     </div>
   );

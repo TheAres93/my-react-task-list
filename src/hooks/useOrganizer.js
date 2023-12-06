@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 
 const useOrganizer = () => {
 
-    const [newTask, setNewTask] = useState('');
     const [editTask, setEditTask] = useState();
-    const [titleTask, setTitleTask] = useState("");
-    const [descriptionTask, setDescriptionTask] = useState("");
     const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -20,13 +17,7 @@ const useOrganizer = () => {
     setTasks(newSetTasks);
   }
     
-  function AddTask() {
-    if (titleTask.trim().length < 3) {
-      alert('El título de la tarea debe tener al menos 3 caracteres');
-      setTitleTask("");
-      setDescriptionTask("");
-      return;
-    }
+  function AddTask(titleTask, descriptionTask) {
 
     const newTasks = [...tasks];
     const newTask = {
@@ -39,8 +30,6 @@ const useOrganizer = () => {
 
     newTasks.push(newTask);
     Update(newTasks);
-    setTitleTask("");
-    setDescriptionTask("");
   }
 
   function CompleteTask(id) {
@@ -60,16 +49,15 @@ const useOrganizer = () => {
 
   function EditTask(id, title, description) {
     const newSetTasks = tasks.map((task) => {
-      if (task.id === id && title.title.trim().length >3) {
+      if (task.id === id) {
         return {
           ...task,
-          title: title.title,
-          description: description.description,
+          title: title,
+          description: description,
           edit: false,
           state: false,
         };
       }
-      alert('El título de la tarea debe tener al menos 3 caracteres');
       return task;
     });
 
@@ -111,8 +99,6 @@ const useOrganizer = () => {
         DeleteTask,
         InputOn,
         DeleteAllTasks,
-        titleTask, setTitleTask,
-        descriptionTask, setDescriptionTask,
         tasks,
       };
     };
