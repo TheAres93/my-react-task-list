@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useOrganizer = () => {
+export default function useOrganizer(){
 
     const [editTask, setEditTask] = useState();
     const [tasks, setTasks] = useState([]);
@@ -18,7 +18,7 @@ const useOrganizer = () => {
   }
     
   function AddTask(titleTask, descriptionTask) {
-
+    const date = new Date(Date.now());
     const newTasks = [...tasks];
     const newTask = {
       id: String(Date.now()),
@@ -26,6 +26,7 @@ const useOrganizer = () => {
       description: descriptionTask,
       state: false,
       edit: false,
+      created: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
     };
 
     newTasks.push(newTask);
@@ -35,9 +36,11 @@ const useOrganizer = () => {
   function CompleteTask(id) {
     const newSetTasks = tasks.map((tarea) => {
       if (tarea.id === id) {
+        const date = new Date(Date.now());
         return {
           ...tarea,
           state: !tarea.state,
+          finished: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
         };
       }
       return tarea;
@@ -52,15 +55,15 @@ const useOrganizer = () => {
       if (task.id === id) {
         return {
           ...task,
-          title: title,
-          description: description,
+          title,
+          description,
           edit: false,
           state: false,
         };
       }
       return task;
     });
-
+  
     Update(newSetTasks);
     return newSetTasks;
   }
@@ -102,5 +105,3 @@ const useOrganizer = () => {
         tasks,
       };
     };
-
-export default useOrganizer;

@@ -1,8 +1,19 @@
-import { useContext, useState } from "react";
-import "./general.css";
+import React, { useContext } from "react";
 import Context from "../context/context";
 import Form from "./Form";
-function CardTask(props) {
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Grid, GridItem, Text, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react'
+export function CardTask(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = React.useRef()
+
   const {
     CompleteTask,
     DeleteTask,
@@ -10,74 +21,130 @@ function CardTask(props) {
   } = useContext(Context);
   const { task } = props;
 
-
  function renderTask(task) {
-
-    if (!task.edit && !task.state) {
-      return (
-      <div className="descripcion">
-        <div className="title">
-          {task.title}
-        </div>
-          {task.description}
-      </div>);
-    } else if (task.edit) {
-      return (
-          <Form action="EditTask" id={task.id} titulo={task.title} descripcion={task.description} />
-      );
-    }
-        
-
     return (
-      <div className="noDescripcion">
-        <div className="title">
-          {task.title}
-        </div>
-          {task.description}
-      </div>);
- }
+      <Accordion allowToggle>
+        <AccordionItem>
+          <h2>
+          <AccordionButton _expanded={task.state ? { bg: 'green', color: 'white' }:{ bg: 'red', color: 'white' }}>
+              <Box as="span" flex="1" textAlign="left">
+                {task.edit ? "Editando tarea" : task.title}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel   >
+            {task.edit ? (
+              <Form
+                action="EditTask"
+                id={task.id}
+                titulo={task.title}
+                descripcion={task.description}
+              />
+            ) : !task.state ? (
+              <Text>
+                {task.description}
+                {`Creada: ${task.created}`}
+              </Text>
+            ) : (
+              <Text style={{ textDecoration: "line-through" }} textAlign="center">
+                {task.description}
+                {`Creada: ${task.created}`}
+                <br/>
+                {`Realizada: ${task.finished}`}
+              </Text>
+            )}
+            {task.edit === false && (
+              <Button
+                colorScheme="ghost"
+                color="lightblue"
+                cursor="pointer"
+                onClick={() => InputOn(task.id)}
+              >
+                <span className="material-symbols-outlined">edit</span>
+              </Button>
+            )}
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
+ 
 
  return (
-    <div className="tarea">
-      {task.edit === false ?<button
-          type="button"
-          cursor="pointer"
-          onClick= {()=>
-            CompleteTask(task.id)}
-        >
-        <span className={`material-symbols-outlined ${task.state ? 'check_circle check' : 'radio_button_unchecked uncheck'}`}>
-          {task.state ? 'check_circle' : 'radio_button_unchecked'}
+  <Grid 
+    templateColumns='20px 200px 20px'
+    gap={6} 
+    alignItems="center" 
+    justifyItems="center"
+  >
+    <GridItem>
+    {task.edit === false ? (
+      <Button
+        colorScheme="ghost"
+        color={task.state ? "green" : "red"}
+        cursor="pointer"
+        onClick={() => CompleteTask(task.id)}
+      >
+        <span className={`material-symbols-outlined ${task.state ? "check_circle" : "radio_Button_unchecked"}`}>
+          {task.state ? "check_circle" : "radio_Button_unchecked"}
         </span>
-      </button> : <div></div>}
-      {renderTask(task)}
-      <div className="icon">
-        <button
-          type="button"
-          cursor="pointer"
-          onClick={()=>
-            InputOn(task.id)}
-        >
-          {task.edit === false?<span className="material-symbols-outlined editar">
-            edit
-          </span>:<span className="material-symbols-outlined uncheck">
-            cancel
-          </span>}
-        </button>
-      </div>
-      <div className="icon">
-      {task.edit === false ?<button
-          type="button"
-          cursor="pointer"
-          onClick= {()=>
-            DeleteTask(task.id)}
-        >
-          <span className="material-symbols-outlined borrar">
-            backspace
-          </span>
-        </button>: <div></div>}
-      </div>
-    </div>
+      </Button>
+    ) : (
+      <div></div>
+    )}
+    </GridItem>
+    <GridItem justifyContent="center" alignContent="center">{renderTask(task)}</GridItem>
+    <GridItem>
+            {task.edit === false ?<Button
+                colorScheme="ghost"
+                color="brown"
+                cursor="pointer"
+                onClick={onOpen}
+              >
+                <span className="material-symbols-outlined">
+                  backspace
+                </span>
+              </Button>:<Button
+                colorScheme="ghost"
+                color="brown"
+                cursor="pointer"
+                onClick={()=>
+                  InputOn(task.id)}
+              >
+                <span className="material-symbols-outlined">
+                  cancel
+                </span>
+              </Button>}
+    </GridItem>
+            {isOpen === true && <AlertDialog
+              motionPreset='slideInBottom'
+              leastDestructiveRef={cancelRef}
+              onClose={onClose}
+              isOpen={isOpen}
+              isCentered
+            >
+              <AlertDialogOverlay>
+                <AlertDialogContent>
+                  <AlertDialogHeader>Borrar tareas</AlertDialogHeader>
+                  <AlertDialogBody>
+                    {`¿Realmente quieres borrar la tarea "${task.title}"  ?`}
+                  </AlertDialogBody>
+                  <AlertDialogFooter>
+                    <Button ref={cancelRef} onClick={onClose}>
+                      Mejor no
+                    </Button>
+                    <Button colorScheme='red' ml={3}
+                    onClick={() => {
+                      DeleteTask(task.id);
+                      onClose();
+                    }}>
+                      Estoy seguro
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>}
+  </Grid>
   );
 }
-
-export {CardTask};

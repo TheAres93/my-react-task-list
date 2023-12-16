@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { useContext } from 'react';
 import Context from '../context/context';
+import { useToast, Input, Button, Grid, GridItem, Textarea, Text  } from '@chakra-ui/react'
 
-function Form(props) {
+
+export default function Form(props) {
+  const toast = useToast()
   const {action, id, titulo, descripcion} = props
 
     const [titleTask, setTitleTask] = useState("");
     const [descriptionTask, setDescriptionTask] = useState("");
     const [updateTitleTask, setUpdateTitleTask] = useState("");
-    const [updateDescriptionTask, setUpdateDescriptionTask] = useState("");
+    const [updateDescriptionTask, setUpdateDescriptionTask] = useState(descripcion);
     const [formValidation, setFormValidation] = useState({
-        title: false
+        title: "Debes escribir un titulo."
     });
 
   const {
     AddTask,
     EditTask
   } = useContext(Context);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,16 +30,46 @@ function Form(props) {
         case 'AddTask':
           setTitleTask("");
           setDescriptionTask("");
+          setFormValidation({
+            ...formValidation,
+            title: "Debes escribir un titulo."
+          });
           AddTask(titleTask, descriptionTask);
+          toast({
+            title: "Tarea Agregada.",
+            description: "Tu tarea ha sido agregada exitosamente.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
           break;
         case 'EditTask':
           setUpdateTitleTask("");
           setUpdateDescriptionTask("");
+          setFormValidation({
+            ...formValidation,
+            title: "Debes escribir un titulo."
+          });
           EditTask(id, updateTitleTask, updateDescriptionTask);
+          toast({
+            title: "Tarea Editada.",
+            description: "Tu tarea ha sido actualizada con exito.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
           break;
         default:
           break;
       }
+    } else {
+      toast({
+        title:"Error",
+        description: `${formValidation.title}`,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -78,35 +112,51 @@ function Form(props) {
   }
 
   return (
-    <form className="barra" onSubmit={handleSubmit}>
-        <input
-          className='textarea'
-          type='text'
-          placeholder={action === 'AddTask' ? 'Título de la tarea' : `Anterior: ${titulo}`}
-          value={action === 'AddTask' ? titleTask : updateTitleTask}
-          onChange={handleTitleValidation}
-          onKeyDown={handleKeyDown}
-          disabled={!isValid}
-        />
-        <div>{formValidation.title && <span className='uncheck'>{formValidation.title}</span>}</div>
-        <textarea
-          className='textarea'
+    <form onSubmit={handleSubmit}>
+      <Grid
+        templateColumns="1fr"
+        templateRows="20% 8% 50% 22%"
+        gap={2}
+        justifyItems="center"
+        alignItems="center"
+      >
+        <GridItem>
+          <Input variant='filled'
+            type='text'
+            placeholder={action === 'AddTask' ? 'Título de la tarea' : `Anterior: ${titulo}`}
+            value={action === 'AddTask' ? titleTask : updateTitleTask}
+            onChange={handleTitleValidation}
+            onKeyDown={handleKeyDown}
+            disabled={!isValid}
+          />
+        </GridItem>
+        <GridItem color="red" textAlign="center">{formValidation.title && <Text>{formValidation.title}</Text>}</GridItem>
+        <Textarea 
           placeholder={action === 'AddTask' ? 'Descripción de la tarea' : `Anterior: ${descripcion}`}
           value={action === 'AddTask' ? descriptionTask : updateDescriptionTask}
           onChange={action === 'AddTask' ?
           (event) => setDescriptionTask(event.target.value) 
           : (event) => setUpdateDescriptionTask(event.target.value) }
           onKeyDown={handleKeyDown}
-          rows={2}
+          rows={4}
         />
-        {action === 'AddTask' ? <button disabled={!isValid} type='button' cursor='pointer' onClick={handleSubmit}>
+        {action === 'AddTask' ? 
+        <Button
+        onClick={handleSubmit}
+        colorScheme='gray'
+        cursor='pointer'
+        >
           Agregar Tarea
-        </button> :
-        <button disabled={!isValid} type='button' cursor='pointer' onClick={handleSubmit}>
-        Editar Tarea
-        </button>}
-      </form>
+        </Button>
+        :
+          <Button
+          cursor='pointer'
+          colorScheme='gray'
+          onClick={handleSubmit}
+        >
+          Editar Tarea
+        </Button>}
+      </Grid>
+    </form>
   );
 }
-
-export default Form;
