@@ -44,11 +44,13 @@ export function CardTask(props) {
             ) : !task.state ? (
               <Text>
                 {task.description}
+                <br/>
                 {`Creada: ${task.created}`}
               </Text>
             ) : (
               <Text style={{ textDecoration: "line-through" }} textAlign="center">
                 {task.description}
+                <br/>
                 {`Creada: ${task.created}`}
                 <br/>
                 {`Realizada: ${task.finished}`}
